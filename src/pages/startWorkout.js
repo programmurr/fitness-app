@@ -47,37 +47,44 @@ export default function StartWorkout() {
       <CustomDate />
       <form>
         {/* Select body part worked */}
-        <label>Select body part</label>
-        <select
-          value={selectedBodyPart}
-          onChange={(e) => setSelectedBodyPart(e.target.value)}
-        >
-          <option value="select">Select</option>
-          {allBodyParts.map((bodyPart, index) => (
-            <option value={bodyPart} key={`${bodyPart}${index}`}>
-              {bodyPart}
-            </option>
-          ))}
-        </select>
-        {/* Select exercise name (type & filter in future) */}
-        <label>Select exercise</label>
-        <select
-          value={selectedExercise}
-          onChange={(e) => setSelectedExercise(e.target.value)}
-        >
-          <option value="select">Select</option>
-          {exercisesByBodyPart.map((exercise, index) => (
-            <option value={exercise.name} key={`${exercise.name}${index}`}>
-              {exercise.name}
-            </option>
-          ))}
-        </select>
+        <div className="bodypart-container">
+          <label>Select body part</label>
+          <select
+            value={selectedBodyPart}
+            onChange={(e) => setSelectedBodyPart(e.target.value)}
+          >
+            <option value="select">Select</option>
+            {allBodyParts.map((bodyPart, index) => (
+              <option value={bodyPart} key={`${bodyPart}${index}`}>
+                {bodyPart}
+              </option>
+            ))}
+          </select>
+          {/* Select exercise name (type & filter in future) */}
+          {/* Can have multiple exercises per bodypart-container */}
+          {/* Need 'Add Exercise' button that auto-filters same exercises for bodypart */}
+          <div className="exercises-container">
+            <label>Select exercise</label>
+            <select
+              value={selectedExercise}
+              onChange={(e) => setSelectedExercise(e.target.value)}
+            >
+              <option value="select">Select</option>
+              {exercisesByBodyPart.map((exercise, index) => (
+                <option value={exercise.name} key={`${exercise.name}${index}`}>
+                  {exercise.name}
+                </option>
+              ))}
+            </select>
+            {/* Perform exercise */}
+            {/* Record reps */}
+            {/* Record weight */}
+            {/* Record note */}
+            {/* Move on to next exercise */}
+          </div>
+          {/* Move on to next body part */}
+        </div>
       </form>
-      {/* Perform exercise */}
-      {/* Record reps */}
-      {/* Record weight */}
-      {/* Record note */}
-      {/* Move on to next exercise/MuscleGroup */}
       <HomeLink to="/">Home</HomeLink>
     </div>
   );

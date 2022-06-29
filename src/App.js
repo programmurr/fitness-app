@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route, Link } from "react-router-dom";
+import "./styles/app.css";
+import StartWorkout from "./pages/startWorkout";
+import NotFound from "./pages/404";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="start-workout" element={<StartWorkout />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </div>
+  );
+}
+
+function Home() {
+  return (
+    <>
+      <h1 className="home-header">MurrFit</h1>
+      <Link to="/start-workout" className="start-workout-link">
+        Start Workout
+      </Link>
+    </>
   );
 }
 

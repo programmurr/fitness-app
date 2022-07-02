@@ -1,3 +1,5 @@
+import alLExercises from "./allExercises";
+
 export async function fetchAllBodyParts() {
   try {
     const response = await fetch(
@@ -16,10 +18,10 @@ export async function fetchAllBodyParts() {
   }
 }
 
-export async function fetchExercisesByBodyPart(muscleGroup) {
+export async function fetchExercisesByBodyPart(selectedBodyPart) {
   try {
     const response = await fetch(
-      `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${muscleGroup}`,
+      `https://exercisedb.p.rapidapi.com/exercises/bodyPart/${selectedBodyPart}`,
       {
         headers: {
           "X-RapidAPI-Key": process.env.REACT_APP_XRapidAPIKey,
@@ -32,4 +34,10 @@ export async function fetchExercisesByBodyPart(muscleGroup) {
     console.error(error);
     return [];
   }
+}
+
+export function filterExercisesByPodyPart(selectedBodyPart) {
+  return alLExercises.filter(
+    (exercise) => exercise.bodyPart === selectedBodyPart
+  );
 }

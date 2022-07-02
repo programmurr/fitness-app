@@ -2,6 +2,12 @@ import { HomeLink } from "../styled-components/links/HomeLink";
 import "../styles/start-workout.css";
 import { useEffect, useState } from "react";
 import CustomDate from "../components/CustomDate";
+import ExerciseNote from "../components/ExerciseNote";
+import ExerciseWeight from "../components/ExerciseWeight";
+import ExerciseReps from "../components/ExerciseReps";
+import ExerciseSets from "../components/ExerciseSets";
+import SelectExercise from "../components/SelectExercise";
+import SelectBodyPart from "../components/SelectBodypart";
 import {
   fetchAllBodyParts,
   fetchExercisesByBodyPart,
@@ -30,120 +36,56 @@ export default function StartWorkout() {
   const [selectedBodyPart, setSelectedBodyPart] = useState("");
 
   const [exercisesByBodyPart, setExercisesByBodyPart] = useState([]);
-  useEffect(() => {
-    if (selectedBodyPart) {
-      async function getExercisesByBodyPart() {
-        try {
-          const sanitizedBodyPart = selectedBodyPart.includes(" ")
-            ? selectedBodyPart.replace(" ", "%20")
-            : selectedBodyPart;
-          const exercises =
-            process.env.NODE_ENV === "production"
-              ? await fetchExercisesByBodyPart(sanitizedBodyPart)
-              : filterExercisesByPodyPart(selectedBodyPart);
-          setExercisesByBodyPart(exercises);
-        } catch (error) {
-          console.error(error);
-          setExercisesByBodyPart([]);
-        }
-      }
-      getExercisesByBodyPart();
+
+  async function handleBodyPartChange(event) {
+    const part = event.target.value;
+    setSelectedBodyPart(part);
+    try {
+      const sanitizedBodyPart = part.includes(" ")
+        ? part.replace(" ", "%20")
+        : part;
+      const exercises =
+        process.env.NODE_ENV === "production"
+          ? await fetchExercisesByBodyPart(sanitizedBodyPart)
+          : filterExercisesByPodyPart(part);
+      setExercisesByBodyPart(exercises);
+    } catch (error) {
+      console.error(error);
+      setExercisesByBodyPart([]);
     }
-  }, [selectedBodyPart]);
-
-  const [selectedExercise, setSelectedExercise] = useState("");
-
-  const [reps, setReps] = useState("1");
-  const [numSets, setNumSets] = useState("1");
-  const [weight, setWeight] = useState("0");
-  const [note, setNote] = useState("");
+  }
 
   function addExercise(e) {
     console.log("Wut");
   }
 
-  // TODO: Make a local version of all exercises or I will hit API limit soon :(
+  // TODO:
+  // Refactor broken out Exercise components (all very similar)
+  // Ability to add multiple exercises per bodypart
+  // Ability to add multiple bodyparts
+  // Style
   return (
     <div className="start-workout-container">
       <CustomDate />
       {/* Select body part worked */}
       <div className="bodypart-container">
-        <label>Select body part</label>
-        <select
-          value={selectedBodyPart}
-          onChange={(e) => setSelectedBodyPart(e.target.value)}
-        >
-          <option value="select">Select</option>
-          {allBodyParts.map((bodyPart, index) => (
-            <option value={bodyPart} key={`${bodyPart}${index}`}>
-              {bodyPart}
-            </option>
-          ))}
-        </select>
-        {/* Select exercise name (type & filter in future) */}
-        {/* Can have multiple exercises per bodypart-container */}
-        {/* Need 'Add Exercise' button that auto-filters same exercises for bodypart */}
+        <SelectBodyPart
+          selectedBodyPart={selectedBodyPart}
+          handleBodyPartChange={handleBodyPartChange}
+          allBodyParts={allBodyParts}
+        />
         <div className="exercise-container">
-          <label>Select exercise</label>
-          <select
-            value={selectedExercise}
-            onChange={(e) => setSelectedExercise(e.target.value)}
-          >
-            <option value="select">Select</option>
-            {exercisesByBodyPart.map((exercise, index) => (
-              <option value={exercise.name} key={`${exercise.name}${index}`}>
-                {exercise.name}
-              </option>
-            ))}
-          </select>
-          {/* Perform exercise */}
-          {/* Record reps */}
-          <div className="set-container">
-            <label>Sets</label>
-            <input
-              type="number"
-              value={numSets}
-              onChange={(e) => setNumSets(e.target.value)}
-              min="1"
-            />
-          </div>
-          <div className="rep-container">
-            <label>Reps</label>
-            <input
-              type="number"
-              value={reps}
-              onChange={(e) => setReps(e.target.value)}
-              min="1"
-            />
-          </div>
-          {/* Record weight */}
-          <div className="weight-container">
-            <label>Weight</label>
-            <input
-              type="number"
-              value={weight}
-              onChange={(e) => setWeight(e.target.value)}
-              min="0"
-            />
-            <span>KG</span>
-          </div>
-          {/* Record note */}
-          <div className="note-container">
-            <label>Note</label>
-            <input
-              type="text"
-              value={note}
-              onChange={(e) => setNote(e.target.value)}
-            />
-          </div>
-          {/* Move on to next exercise */}
+          <SelectExercise exercisesByBodyPart={exercisesByBodyPart} />
+          <ExerciseSets />
+          <ExerciseReps />
+          <ExerciseWeight />
+          <ExerciseNote />
           <div className="add-exercise-container">
             <button className="add-exercise-button" onClick={addExercise}>
               +
             </button>
           </div>
         </div>
-        {/* Move on to next body part */}
       </div>
       <HomeLink to="/">Home</HomeLink>
     </div>

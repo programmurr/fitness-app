@@ -1,16 +1,11 @@
-import { useReducer } from "react";
-import exerciseReducer from "../reducer/exerciseReducer";
-
-export default function ExerciseNote() {
-  const [note, dispatch] = useReducer(exerciseReducer, "");
-
+export default function ExerciseNote(props) {
   return (
     <div className="note-container">
       <label>Note</label>
       <input
         type="text"
-        value={note}
-        onChange={(e) => dispatch({ type: "note", payload: e.target.value })}
+        value={props.note}
+        onChange={(e) => props.handleChange("note", e.target.value)}
       />
     </div>
   );

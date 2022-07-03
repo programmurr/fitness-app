@@ -2,12 +2,9 @@ import { HomeLink } from "../styled-components/links/HomeLink";
 import "../styles/start-workout.css";
 import { useEffect, useState } from "react";
 import CustomDate from "../components/CustomDate";
-import ExerciseNote from "../components/ExerciseNote";
-import ExerciseWeight from "../components/ExerciseWeight";
-import ExerciseReps from "../components/ExerciseReps";
-import ExerciseSets from "../components/ExerciseSets";
-import SelectExercise from "../components/SelectExercise";
 import SelectBodyPart from "../components/SelectBodypart";
+import ExerciseDetail from "../components/ExerciseDetail";
+import ExerciseDisplay from "../components/ExerciseDisplay";
 import {
   fetchAllBodyParts,
   fetchExercisesByBodyPart,
@@ -15,7 +12,7 @@ import {
 } from "../lib/exercises";
 import allBodyPartsJSON from "../lib/allBodyParts.json";
 
-export default function StartWorkout() {
+export default function Workout() {
   const [allBodyParts, setAllBodyParts] = useState([]);
   useEffect(() => {
     async function getBodyParts() {
@@ -55,37 +52,38 @@ export default function StartWorkout() {
     }
   }
 
-  function addExercise(e) {
-    console.log("Wut");
+  const [exercises, setExercises] = useState([]);
+
+  function addExercise(exerciseDetail) {
+    setExercises([...exercises, exerciseDetail]);
   }
 
   // TODO:
-  // Refactor broken out Exercise components (all very similar)
-  // Ability to add multiple exercises per bodypart
   // Ability to add multiple bodyparts
   // Style
   return (
     <div className="start-workout-container">
       <CustomDate />
-      {/* Select body part worked */}
       <div className="bodypart-container">
         <SelectBodyPart
           selectedBodyPart={selectedBodyPart}
           handleBodyPartChange={handleBodyPartChange}
           allBodyParts={allBodyParts}
         />
-        <div className="exercise-container">
-          <SelectExercise exercisesByBodyPart={exercisesByBodyPart} />
-          <ExerciseSets />
-          <ExerciseReps />
-          <ExerciseWeight />
-          <ExerciseNote />
-          <div className="add-exercise-container">
-            <button className="add-exercise-button" onClick={addExercise}>
-              +
-            </button>
-          </div>
-        </div>
+        {exercises.map((exercise, index) => (
+          <ExerciseDisplay
+            key={`exercise${index}`}
+            name={exercise.name}
+            sets={exercise.sets}
+            reps={exercise.reps}
+            weight={exercise.weight}
+            note={exercise.note}
+          />
+        ))}
+        <ExerciseDetail
+          exercisesByBodyPart={exercisesByBodyPart}
+          handleAddExercise={addExercise}
+        />
       </div>
       <HomeLink to="/">Home</HomeLink>
     </div>

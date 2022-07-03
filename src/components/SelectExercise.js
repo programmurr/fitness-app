@@ -1,17 +1,10 @@
-import { useReducer } from "react";
-import exerciseReducer from "../reducer/exerciseReducer";
-
 export default function SelectExercise(props) {
-  const [exercise, dispatch] = useReducer(exerciseReducer, "Select");
-
   return (
     <div className="select-exercise-container">
       <label>Select exercise</label>
       <select
-        value={exercise}
-        onChange={(e) =>
-          dispatch({ type: "exercise", payload: e.target.value })
-        }
+        value={props.exercise}
+        onChange={(e) => props.handleChange("name", e.target.value)}
       >
         <option value="select">Select</option>
         {props.exercisesByBodyPart.map((exercise, index) => (

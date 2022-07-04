@@ -3,54 +3,52 @@ import ExerciseSets from "./ExerciseSets";
 import ExerciseReps from "./ExerciseReps";
 import ExerciseWeight from "./ExerciseWeight";
 import ExerciseNote from "./ExerciseNote";
-import { useState } from "react";
 
 export default function ExerciseDetail(props) {
-  const [exerciseDetails, setExerciseDetails] = useState({
-    name: "Select",
-    sets: "1",
-    reps: "1",
-    weight: "",
-    note: "",
-  });
+  const { exercise } = props;
 
-  function handleDetailChange(detail, value) {
-    setExerciseDetails({
-      ...exerciseDetails,
-      [detail]: value,
-    });
-  }
-
-  // TODO: Verify only numbers in number boxes
+  // TODO:
+  // Verify only numbers in number boxes
+  // Filter exercises by typing
   return (
     <div className="exercise-container">
       <SelectExercise
-        exercise={exerciseDetails.exercise}
+        exercise={exercise.name}
         exercisesByBodyPart={props.exercisesByBodyPart}
-        handleChange={handleDetailChange}
+        handleChange={(detail, value) =>
+          props.handleDetailChange(detail, value, exercise.id)
+        }
       />
       <ExerciseSets
-        sets={exerciseDetails.sets}
-        handleChange={handleDetailChange}
+        sets={exercise.sets}
+        handleChange={(detail, value) =>
+          props.handleDetailChange(detail, value, exercise.id)
+        }
       />
       <ExerciseReps
-        reps={exerciseDetails.reps}
-        handleChange={handleDetailChange}
+        reps={exercise.reps}
+        handleChange={(detail, value) =>
+          props.handleDetailChange(detail, value, exercise.id)
+        }
       />
       <ExerciseWeight
-        weight={exerciseDetails.weight}
-        handleChange={handleDetailChange}
+        weight={exercise.weight}
+        handleChange={(detail, value) =>
+          props.handleDetailChange(detail, value, exercise.id)
+        }
       />
       <ExerciseNote
-        note={exerciseDetails.note}
-        handleChange={handleDetailChange}
+        note={exercise.note}
+        handleChange={(detail, value) =>
+          props.handleDetailChange(detail, value, exercise.id)
+        }
       />
       <div className="add-exercise-container">
         <button
           className="add-exercise-button"
-          onClick={() => props.handleAddExercise(exerciseDetails)}
+          onClick={props.handleAddExercise}
         >
-          +
+          Add Exercise
         </button>
       </div>
     </div>

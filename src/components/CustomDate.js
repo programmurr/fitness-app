@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import format from "date-fns/format";
 import { formatInTimeZone } from "date-fns-tz";
+import styles from "../styles/custom-date.module.css";
 
 export default function CustomDate() {
   const [date, setDate] = useState();
@@ -8,7 +9,7 @@ export default function CustomDate() {
     setDate(format(new Date(), "d/M/y"));
   }, []);
 
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState("-");
   useEffect(() => {
     setInterval(() => {
       const newDate = new Date();
@@ -23,9 +24,9 @@ export default function CustomDate() {
   });
 
   return (
-    <div>
-      <p>{date}</p>
-      <p>{time}</p>
+    <div className={styles.customDateContainer}>
+      <p className={styles.customDate}>{date}</p>
+      <p className={styles.customTime}>{time}</p>
     </div>
   );
 }

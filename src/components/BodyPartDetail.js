@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "../styles/start-workout.css";
 import SelectBodyPart from "../components/SelectBodypart";
 import ExerciseDetail from "../components/ExerciseDetail";
 import {
@@ -8,6 +7,7 @@ import {
   filterExercisesByPodyPart,
 } from "../lib/exercises";
 import allBodyPartsJSON from "../lib/allBodyParts.json";
+import styles from "../styles/bodypart-detail.module.css";
 
 export default function BodyPartDetail(props) {
   const [allBodyParts, setAllBodyParts] = useState([]);
@@ -85,7 +85,7 @@ export default function BodyPartDetail(props) {
   }
 
   return (
-    <div className="bodypart-container">
+    <div className={styles.bodyPartContainer}>
       <SelectBodyPart
         selectedBodyPart={selectedBodyPart}
         handleBodyPartChange={handleBodyPartChange}
@@ -100,7 +100,12 @@ export default function BodyPartDetail(props) {
           handleAddExercise={addExercise}
         />
       ))}
-      <button onClick={props.handleAddBodyPart}>Add bodypart</button>
+      <button
+        className={styles.addBodyPartButton}
+        onClick={props.handleAddBodyPart}
+      >
+        Add bodypart
+      </button>
     </div>
   );
 }

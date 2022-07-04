@@ -1,5 +1,5 @@
 import { HomeLink } from "../styled-components/links/HomeLink";
-import "../styles/start-workout.css";
+import styles from "../styles/workout.module.css";
 import CustomDate from "../components/CustomDate";
 import BodyPartDetail from "../components/BodyPartDetail";
 import { useState } from "react";
@@ -14,7 +14,7 @@ export default function Workout() {
   // TODO:
   // Style
   return (
-    <div className="start-workout-container">
+    <div className={styles.workoutContainer}>
       <CustomDate />
       {partDetail.map((bodypart, index) => (
         <BodyPartDetail

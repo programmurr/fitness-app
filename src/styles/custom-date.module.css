@@ -1,0 +1,12 @@
+.customDateContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.customDate,
+.customTime {
+  color: white;
+  font-size: 2rem;
+  font-weight: 600;
+}

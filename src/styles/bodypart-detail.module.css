@@ -1,0 +1,12 @@
+.bodyPartContainer {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid white;
+  border-radius: 5px;
+}
+
+.addBodyPartButton {
+  width: fit-content;
+}

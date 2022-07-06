@@ -3,6 +3,8 @@ import ExerciseSets from "./ExerciseSets";
 import ExerciseReps from "./ExerciseReps";
 import ExerciseWeight from "./ExerciseWeight";
 import ExerciseNote from "./ExerciseNote";
+import styles from "../styles/exercise-container.module.css";
+import formStyles from "../styles/forms.module.css";
 
 export default function ExerciseDetail(props) {
   const { exercise } = props;
@@ -11,7 +13,7 @@ export default function ExerciseDetail(props) {
   // Verify only numbers in number boxes
   // Filter exercises by typing
   return (
-    <div className="exercise-container">
+    <div className={styles.exerciseContainer}>
       <SelectExercise
         exercise={exercise.name}
         exercisesByBodyPart={props.exercisesByBodyPart}
@@ -43,9 +45,9 @@ export default function ExerciseDetail(props) {
           props.handleDetailChange(detail, value, exercise.id)
         }
       />
-      <div className="add-exercise-container">
+      <div className={styles.addButtonContainer}>
         <button
-          className="add-exercise-button"
+          className={formStyles.workoutButton}
           onClick={props.handleAddExercise}
         >
           Add Exercise

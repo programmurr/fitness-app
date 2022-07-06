@@ -1,0 +1,12 @@
+.exerciseContainer {
+  width: 80%;
+  flex: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.addButtonContainer {
+  display: flex;
+  justify-content: center;
+}

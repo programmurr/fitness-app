@@ -1,7 +1,9 @@
 .customDateContainer {
+  align-self: flex-end;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  margin: 3%;
 }
 
 .customDate,

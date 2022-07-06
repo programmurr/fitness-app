@@ -8,6 +8,7 @@ import {
 } from "../lib/exercises";
 import allBodyPartsJSON from "../lib/allBodyParts.json";
 import styles from "../styles/bodypart-detail.module.css";
+import formStyles from "../styles/forms.module.css";
 
 export default function BodyPartDetail(props) {
   const [allBodyParts, setAllBodyParts] = useState([]);
@@ -101,7 +102,7 @@ export default function BodyPartDetail(props) {
         />
       ))}
       <button
-        className={styles.addBodyPartButton}
+        className={formStyles.workoutButton}
         onClick={props.handleAddBodyPart}
       >
         Add bodypart

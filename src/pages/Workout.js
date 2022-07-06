@@ -12,7 +12,7 @@ export default function Workout() {
   }
 
   // TODO:
-  // Style
+  // Fix 'add exercise' and 'add bodypart# style issues
   return (
     <div className={styles.workoutContainer}>
       <CustomDate />

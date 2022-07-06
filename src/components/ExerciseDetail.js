@@ -1,14 +1,10 @@
 import SelectExercise from "./SelectExercise";
-import ExerciseSets from "./ExerciseSets";
-import ExerciseReps from "./ExerciseReps";
-import ExerciseWeight from "./ExerciseWeight";
-import ExerciseNote from "./ExerciseNote";
+import ExerciseInput from "./ExerciseInput";
 import styles from "../styles/exercise-container.module.css";
 import formStyles from "../styles/forms.module.css";
 
 export default function ExerciseDetail(props) {
   const { exercise } = props;
-
   // TODO:
   // Verify only numbers in number boxes
   // Filter exercises by typing
@@ -21,26 +17,34 @@ export default function ExerciseDetail(props) {
           props.handleDetailChange(detail, value, exercise.id)
         }
       />
-      <ExerciseSets
-        sets={exercise.sets}
+      <ExerciseInput
+        label="sets"
+        inputType="number"
+        value={exercise.sets}
         handleChange={(detail, value) =>
           props.handleDetailChange(detail, value, exercise.id)
         }
       />
-      <ExerciseReps
-        reps={exercise.reps}
+      <ExerciseInput
+        label="reps"
+        inputType="number"
+        value={exercise.reps}
         handleChange={(detail, value) =>
           props.handleDetailChange(detail, value, exercise.id)
         }
       />
-      <ExerciseWeight
-        weight={exercise.weight}
+      <ExerciseInput
+        label="weight"
+        inputType="number"
+        value={exercise.weight}
         handleChange={(detail, value) =>
           props.handleDetailChange(detail, value, exercise.id)
         }
       />
-      <ExerciseNote
-        note={exercise.note}
+      <ExerciseInput
+        label="note"
+        inputType="text"
+        value={exercise.note}
         handleChange={(detail, value) =>
           props.handleDetailChange(detail, value, exercise.id)
         }

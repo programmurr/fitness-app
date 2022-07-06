@@ -56,7 +56,7 @@ export default function BodyPartDetail(props) {
       name: "Select",
       sets: "1",
       reps: "1",
-      weight: "",
+      weight: "1",
       note: "",
     },
   ]);

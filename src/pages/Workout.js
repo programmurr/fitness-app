@@ -1,8 +1,9 @@
-import { HomeLink } from "../styled-components/links/HomeLink";
 import styles from "../styles/workout.module.css";
+import linkStyles from "../styles/links.module.css";
 import CustomDate from "../components/CustomDate";
 import BodyPartDetail from "../components/BodyPartDetail";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Workout() {
   const [partDetail, setPartDetail] = useState([{ name: "Select" }]);
@@ -12,7 +13,8 @@ export default function Workout() {
   }
 
   // TODO:
-  // Fix 'add exercise' and 'add bodypart# style issues
+  // Add SAVE functionality
+
   return (
     <div className={styles.workoutContainer}>
       <CustomDate />
@@ -23,7 +25,9 @@ export default function Workout() {
           handleAddBodyPart={handleAddBodyPart}
         />
       ))}
-      <HomeLink to="/">Home</HomeLink>
+      <Link to="/" className={linkStyles.homeLink}>
+        Home
+      </Link>
     </div>
   );
 }

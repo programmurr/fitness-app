@@ -103,7 +103,7 @@ export default function BodyPartDetail(props) {
       ))}
       <button
         className={formStyles.workoutButton}
-        onClick={props.handleAddBodyPart}
+        onClick={() => props.handleAddBodyPart(exercises)}
       >
         Add bodypart
       </button>

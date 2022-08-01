@@ -9,8 +9,18 @@ import {
 import allBodyPartsJSON from "../lib/allBodyParts.json";
 import styles from "../styles/bodypart-detail.module.css";
 import formStyles from "../styles/forms.module.css";
+import { workoutState } from "../recoil/atoms";
+import { useRecoilState } from "recoil";
+import { replaceItemAtIndex } from "../lib/replaceItemAtIndex";
 
-export default function BodyPartDetail(props) {
+export default function BodyPartDetail({
+  arrIndex,
+  bodyPartDetails,
+  handleAddBodyPart,
+}) {
+  const { exercises } = bodyPartDetails;
+  const [workout, setWorkout] = useRecoilState(workoutState);
+
   const [allBodyParts, setAllBodyParts] = useState([]);
   useEffect(() => {
     async function getBodyParts() {
@@ -34,6 +44,11 @@ export default function BodyPartDetail(props) {
 
   async function handleBodyPartChange(event) {
     const part = event.target.value;
+    const newWorkout = replaceItemAtIndex(workout, arrIndex, {
+      ...bodyPartDetails,
+      bodyPartName: part,
+    });
+    setWorkout(newWorkout);
     setSelectedBodyPart(part);
     try {
       const sanitizedBodyPart = part.includes(" ")
@@ -50,17 +65,6 @@ export default function BodyPartDetail(props) {
     }
   }
 
-  const [exercises, setExercises] = useState([
-    {
-      id: 1,
-      name: "Select",
-      sets: "1",
-      reps: "1",
-      weight: "1",
-      note: "",
-    },
-  ]);
-
   function handleDetailChange(detail, value, id) {
     const index = exercises.findIndex((exercise) => exercise.id === id);
     if (index > -1) {
@@ -69,20 +73,20 @@ export default function BodyPartDetail(props) {
         ...exercisesCopy[index],
         [detail]: value,
       };
-      setExercises(exercisesCopy);
+      setWorkout(exercisesCopy);
     }
   }
 
   function addExercise() {
     const newExercise = {
       id: exercises.length + 1,
-      name: "Select",
-      sets: "1",
-      reps: "1",
+      name: "",
+      sets: "",
+      reps: "",
       weight: "",
       note: "",
     };
-    setExercises([...exercises, newExercise]);
+    setWorkout([...exercises, newExercise]);
   }
 
   return (
@@ -101,10 +105,7 @@ export default function BodyPartDetail(props) {
           handleAddExercise={addExercise}
         />
       ))}
-      <button
-        className={formStyles.workoutButton}
-        onClick={() => props.handleAddBodyPart(exercises)}
-      >
+      <button className={formStyles.workoutButton} onClick={handleAddBodyPart}>
         Add bodypart
       </button>
     </div>

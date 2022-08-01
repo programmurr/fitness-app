@@ -90,7 +90,11 @@ export default function BodyPartDetail({
       weight: "",
       note: "",
     };
-    setWorkout([...exercises, newExercise]);
+    const newWorkout = replaceItemAtIndex(workout, arrIndex, {
+      ...bodyPartDetails,
+      exercises: [...exercises, newExercise],
+    });
+    setWorkout(newWorkout);
   }
 
   return (

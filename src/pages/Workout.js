@@ -30,9 +30,7 @@ export default function Workout() {
   }
 
   // TODO:
-  // Reconfigure current state to suit recoil
   // Add SAVE functionality
-  // -- Try Recoil
   // Display bodypart as header in container
 
   return (

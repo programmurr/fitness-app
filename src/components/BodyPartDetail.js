@@ -43,6 +43,7 @@ export default function BodyPartDetail({
   const [exercisesByBodyPart, setExercisesByBodyPart] = useState([]);
 
   async function handleBodyPartChange(event) {
+    // Update selectedBodyPart and workout body part state
     const part = event.target.value;
     const newWorkout = replaceItemAtIndex(workout, arrIndex, {
       ...bodyPartDetails,
@@ -50,6 +51,7 @@ export default function BodyPartDetail({
     });
     setWorkout(newWorkout);
     setSelectedBodyPart(part);
+    // Filter exercises according to body part
     try {
       const sanitizedBodyPart = part.includes(" ")
         ? part.replace(" ", "%20")
@@ -67,14 +69,16 @@ export default function BodyPartDetail({
 
   function handleDetailChange(detail, value, id) {
     const index = exercises.findIndex((exercise) => exercise.id === id);
-    if (index > -1) {
-      const exercisesCopy = [...exercises];
-      exercisesCopy[index] = {
-        ...exercisesCopy[index],
-        [detail]: value,
-      };
-      setWorkout(exercisesCopy);
-    }
+    const exerciseToUpdate = exercises.find((exercise) => exercise.id === id);
+    const newExercises = replaceItemAtIndex(exercises, index, {
+      ...exerciseToUpdate,
+      [detail]: value,
+    });
+    const newWorkout = replaceItemAtIndex(workout, arrIndex, {
+      ...bodyPartDetails,
+      exercises: newExercises,
+    });
+    setWorkout(newWorkout);
   }
 
   function addExercise() {

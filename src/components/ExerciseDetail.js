@@ -1,4 +1,4 @@
-import SelectExercise from "./SelectExercise";
+import { SelectExercise } from "./SelectExercise.jsx";
 import ExerciseInput from "./ExerciseInput";
 import styles from "../styles/exercise-container.module.css";
 import formStyles from "../styles/forms.module.css";

@@ -1,4 +1,6 @@
 import { atom } from "recoil";
+import format from "date-fns-tz/format";
+import createTime from "../lib/createTime";
 
 export const workoutState = atom({
   key: "WorkoutState",
@@ -18,4 +20,14 @@ export const workoutState = atom({
       ],
     },
   ],
+});
+
+export const dateNow = atom({
+  key: "dateNow",
+  default: format(new Date(), "d/M/y"),
+});
+
+export const timeNow = atom({
+  key: "timeNow",
+  default: createTime(),
 });

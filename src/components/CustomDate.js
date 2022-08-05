@@ -1,25 +1,16 @@
-import { useEffect, useState } from "react";
-import format from "date-fns/format";
-import { formatInTimeZone } from "date-fns-tz";
+import { useEffect } from "react";
 import styles from "../styles/custom-date.module.css";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { dateNow, timeNow } from "../recoil/atoms";
+import createTime from "../lib/createTime";
 
 export default function CustomDate() {
-  const [date, setDate] = useState();
-  useEffect(() => {
-    setDate(format(new Date(), "d/M/y"));
-  }, []);
+  const date = useRecoilValue(dateNow);
 
-  const [time, setTime] = useState("-");
+  const [time, setTime] = useRecoilState(timeNow);
   useEffect(() => {
     setInterval(() => {
-      const newDate = new Date();
-      const isoDate = newDate.toISOString();
-      const ukAdjustedDate = formatInTimeZone(
-        isoDate,
-        "Europe/London",
-        "HH:mm:ss"
-      );
-      setTime(ukAdjustedDate);
+      setTime(createTime());
     }, 1000);
   });
 

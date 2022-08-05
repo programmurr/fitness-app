@@ -1,5 +1,6 @@
 import styles from "../styles/workout.module.css";
 import linkStyles from "../styles/links.module.css";
+import formStyles from "../styles/forms.module.css";
 import CustomDate from "../components/CustomDate";
 import BodyPartDetail from "../components/BodyPartDetail";
 import { Link } from "react-router-dom";
@@ -44,7 +45,12 @@ export default function Workout() {
           handleAddBodyPart={handleAddBodyPart}
         />
       ))}
-      <button onClick={() => console.log(workout)}>Save Workout</button>
+      <button
+        className={formStyles.saveButton}
+        onClick={() => console.log(workout)}
+      >
+        Save Workout
+      </button>
       <Link to="/" className={linkStyles.homeLink}>
         Home
       </Link>

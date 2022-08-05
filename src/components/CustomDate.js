@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styles from "../styles/custom-date.module.css";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { dateNow, timeNow } from "../recoil/atoms";
@@ -8,11 +7,9 @@ export default function CustomDate() {
   const date = useRecoilValue(dateNow);
 
   const [time, setTime] = useRecoilState(timeNow);
-  useEffect(() => {
-    setInterval(() => {
-      setTime(createTime());
-    }, 1000);
-  });
+  setInterval(() => {
+    setTime(createTime());
+  }, 1000);
 
   return (
     <div className={styles.customDateContainer}>

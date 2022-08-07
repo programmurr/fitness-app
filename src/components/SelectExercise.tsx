@@ -7,7 +7,11 @@ interface SelectExerciseProps {
   handleChange: (detail: string, value: string) => void;
 }
 
-export const SelectExercise = ({exercise, exercisesByBodyPart, handleChange}: SelectExerciseProps) => {
+export default function SelectExercise ({
+  exercise, 
+  exercisesByBodyPart, 
+  handleChange
+}: SelectExerciseProps) {
   return (
     <div className="select-exercise-container">
       <div className={formStyles.selectWrapper}>

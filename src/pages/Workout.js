@@ -45,10 +45,13 @@ export default function Workout() {
   }
 
   // TODO:
+  // Remove ticking clock re-rendering everything
+  // - Maybe https://recoiljs.org/docs/api-reference/core/useRecoilCallback/ will help
   // Add TS
   // Add tests
   // Add SAVE functionality
   // Display bodypart as header in container
+  // Filter exercises by typing
 
   return (
     <div className={styles.workoutContainer}>

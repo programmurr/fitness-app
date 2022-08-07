@@ -1,5 +1,5 @@
 import formStyles from "../styles/forms.module.css";
-export const SelectExercise = ({ exercise, exercisesByBodyPart, handleChange }) => {
+export default function SelectExercise({ exercise, exercisesByBodyPart, handleChange }) {
     return (<div className="select-exercise-container">
       <div className={formStyles.selectWrapper}>
         <label className={formStyles.selectLabel}>Select exercise</label>
@@ -11,4 +11,4 @@ export const SelectExercise = ({ exercise, exercisesByBodyPart, handleChange }) 
         </select>
       </div>
     </div>);
-};
+}

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import SelectBodyPart from "../components/SelectBodypart";
-import ExerciseDetail from "../components/ExerciseDetail";
+import { ChangeEvent, useEffect, useState } from "react";
+import SelectBodyPart from "./SelectBodypart.jsx";
+import ExerciseDetail from "./ExerciseDetail";
 import {
   fetchAllBodyParts,
   fetchExercisesByBodyPart,
@@ -12,15 +12,23 @@ import formStyles from "../styles/forms.module.css";
 import { workoutState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
 import { replaceItemAtIndex } from "../lib/replaceItemAtIndex";
+import { BodyPartExercises } from "../typescript/interfaces.js";
+
+interface BodyPartDetailProps {
+  arrIndex: number;
+  bodyPartDetails: BodyPartExercises;
+  handleAddBodyPart: () => void;
+}
 
 export default function BodyPartDetail({
   arrIndex,
   bodyPartDetails,
   handleAddBodyPart,
-}) {
+}: BodyPartDetailProps) {
   const { exercises } = bodyPartDetails;
   const [workout, setWorkout] = useRecoilState(workoutState);
 
+  // Continue adding types from here
   const [allBodyParts, setAllBodyParts] = useState([]);
   useEffect(() => {
     async function getBodyParts() {
@@ -42,7 +50,7 @@ export default function BodyPartDetail({
 
   const [exercisesByBodyPart, setExercisesByBodyPart] = useState([]);
 
-  async function handleBodyPartChange(event) {
+  async function handleBodyPartChange(event: ChangeEvent<HTMLSelectElement>) {
     // Update selectedBodyPart and workout body part state
     const part = event.target.value;
     const newWorkout = replaceItemAtIndex(workout, arrIndex, {

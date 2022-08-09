@@ -1,8 +1,9 @@
 import { atom } from "recoil";
 import format from "date-fns-tz/format";
 import createTime from "../lib/createTime";
+import { BodyPartExercises } from "../typescript/interfaces";
 
-export const workoutState = atom({
+export const workoutState = atom<BodyPartExercises[]>({
   key: "WorkoutState",
   default: [
     {
@@ -22,12 +23,12 @@ export const workoutState = atom({
   ],
 });
 
-export const dateNow = atom({
+export const dateNow = atom<string>({
   key: "dateNow",
   default: format(new Date(), "d/M/y"),
 });
 
-export const timeNow = atom({
+export const timeNow = atom<string>({
   key: "timeNow",
   default: createTime(),
 });

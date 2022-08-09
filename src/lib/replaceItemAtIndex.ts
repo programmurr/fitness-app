@@ -1,6 +1,18 @@
-export function replaceItemAtIndex(arr, index, newValue) {
-    return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
+import { 
+  BodyPartExercises, 
+  LiveExercise 
+} from "../typescript/interfaces";
+
+
+
+export function replaceItemAtIndex(
+  arr: BodyPartExercises[] | LiveExercise[], 
+  index: number, 
+  newValue: BodyPartExercises | LiveExercise
+  ): (BodyPartExercises | LiveExercise)[] {
+  return [...arr.slice(0, index), newValue, ...arr.slice(index + 1)];
 }
+
 // body part change
 // {
 //   "id": 1,
@@ -16,6 +28,7 @@ export function replaceItemAtIndex(arr, index, newValue) {
 //     }
 //   ]
 // }
+
 // detail change
 // {
 //   "id": 1,
@@ -25,6 +38,7 @@ export function replaceItemAtIndex(arr, index, newValue) {
 //   "weight": "",
 //   "note": ""
 // }
+
 // {
 //   "id": 1,
 //   "bodyPartName": "back",
@@ -39,6 +53,7 @@ export function replaceItemAtIndex(arr, index, newValue) {
 //     }
 //   ]
 // }
+
 // add exercise
 // {
 //   "id": 1,

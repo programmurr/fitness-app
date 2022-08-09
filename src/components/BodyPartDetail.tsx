@@ -11,8 +11,8 @@ import styles from "../styles/bodypart-detail.module.css";
 import formStyles from "../styles/forms.module.css";
 import { workoutState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
-import { replaceItemAtIndex } from "../lib/replaceItemAtIndex";
-import { BodyPartExercises } from "../typescript/interfaces.js";
+import { replaceItemAtIndex } from "../lib/replaceItemAtIndex.js";
+import { BodyPartExercises, Exercise, LiveExercise } from "../typescript/interfaces.js";
 
 interface BodyPartDetailProps {
   arrIndex: number;
@@ -24,72 +24,70 @@ export default function BodyPartDetail({
   arrIndex,
   bodyPartDetails,
   handleAddBodyPart,
-}: BodyPartDetailProps) {
+}: BodyPartDetailProps): JSX.Element {
   const { exercises } = bodyPartDetails;
   const [workout, setWorkout] = useRecoilState(workoutState);
 
   // Continue adding types from here
-  const [allBodyParts, setAllBodyParts] = useState([]);
+  const [allBodyParts, setAllBodyParts] = useState<string[]>([] as string[]);
   useEffect(() => {
-    async function getBodyParts() {
+    async function getBodyParts(): Promise<void> {
       try {
-        const bodyParts =
+        const bodyParts: string[] =
           process.env.NODE_ENV === "production"
             ? await fetchAllBodyParts()
             : allBodyPartsJSON;
         setAllBodyParts(bodyParts);
       } catch (error) {
         console.error(error);
-        setAllBodyParts([]);
+        setAllBodyParts([] as string[]);
       }
     }
     getBodyParts();
   }, []);
 
-  const [selectedBodyPart, setSelectedBodyPart] = useState("");
+  const [selectedBodyPart, setSelectedBodyPart] = useState<string>("");
 
-  const [exercisesByBodyPart, setExercisesByBodyPart] = useState([]);
+  const [exercisesByBodyPart, setExercisesByBodyPart] = useState<Exercise[]>([] as Exercise[]);
 
-  async function handleBodyPartChange(event: ChangeEvent<HTMLSelectElement>) {
-    // Update selectedBodyPart and workout body part state
-    const part = event.target.value;
-    const newWorkout = replaceItemAtIndex(workout, arrIndex, {
-      ...bodyPartDetails,
-      bodyPartName: part,
-    });
+  async function handleBodyPartChange(event: ChangeEvent<HTMLSelectElement>): Promise<void> {
+    const part: string = event.target.value;
+    const updatedDetails: BodyPartExercises = { ...bodyPartDetails, bodyPartName: part };
+    // Figure out this return problem
+    const newWorkout = replaceItemAtIndex(workout, arrIndex, updatedDetails);
     setWorkout(newWorkout);
     setSelectedBodyPart(part);
     // Filter exercises according to body part
     try {
-      const sanitizedBodyPart = part.includes(" ")
+      const sanitizedBodyPart: string = part.includes(" ")
         ? part.replace(" ", "%20")
         : part;
-      const exercises =
+      const exercises: Exercise[] =
         process.env.NODE_ENV === "production"
           ? await fetchExercisesByBodyPart(sanitizedBodyPart)
           : filterExercisesByPodyPart(part);
       setExercisesByBodyPart(exercises);
     } catch (error) {
       console.error(error);
-      setExercisesByBodyPart([]);
+      setExercisesByBodyPart([] as Exercise[]);
     }
   }
 
-  function handleDetailChange(detail, value, id) {
-    const index = exercises.findIndex((exercise) => exercise.id === id);
-    const exerciseToUpdate = exercises.find((exercise) => exercise.id === id);
-    const newExercises = replaceItemAtIndex(exercises, index, {
-      ...exerciseToUpdate,
-      [detail]: value,
-    });
-    const newWorkout = replaceItemAtIndex(workout, arrIndex, {
-      ...bodyPartDetails,
-      exercises: newExercises,
-    });
-    setWorkout(newWorkout);
+  function handleDetailChange(detail: string, value: string, id: number): void {
+    const index: number = exercises.findIndex((exercise: LiveExercise) => exercise.id === id);
+    const exerciseToUpdate: LiveExercise | undefined = exercises.find((exercise: LiveExercise) => exercise.id === id);
+    if (exerciseToUpdate) {
+      const updatedExercise: LiveExercise = {...exerciseToUpdate, [detail]: value };
+      const newExercises = replaceItemAtIndex(exercises, index, updatedExercise);
+      const newWorkout = replaceItemAtIndex(workout, arrIndex, {
+        ...bodyPartDetails,
+        exercises: newExercises,
+      });
+      setWorkout(newWorkout);
+    }
   }
 
-  function addExercise() {
+  function addExercise(): void {
     const newExercise = {
       id: exercises.length + 1,
       name: "",
@@ -98,10 +96,8 @@ export default function BodyPartDetail({
       weight: "",
       note: "",
     };
-    const newWorkout = replaceItemAtIndex(workout, arrIndex, {
-      ...bodyPartDetails,
-      exercises: [...exercises, newExercise],
-    });
+    const updatedBodyPartDetails: BodyPartExercises = { ...bodyPartDetails, exercises: [...exercises, newExercise] };
+    const newWorkout = replaceItemAtIndex(workout, arrIndex, updatedBodyPartDetails);
     setWorkout(newWorkout);
   }
 

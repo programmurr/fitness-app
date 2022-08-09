@@ -7,7 +7,7 @@ import { LiveExercise, Exercise } from '../typescript/interfaces';
 interface ExerciseDetailProps {
   exercise: LiveExercise;
   exercisesByBodyPart: Exercise[];
-  handleDetailChange: (detail: string, value: string, id: string) => void;
+  handleDetailChange: (detail: string, value: string, id: number) => void;
   handleAddExercise: () => void;
 }
 

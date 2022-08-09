@@ -1,13 +1,14 @@
 export interface Exercise {
-  name: string;
   bodyPart: string;
+  equipment: string;
   gifUrl: string;
   id: string;
+  name: string;
   target: string;
 }
 
 export interface LiveExercise {
-  id: string;
+  id: number;
   name: string;
   sets: string;
   reps: string;

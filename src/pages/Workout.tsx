@@ -8,12 +8,12 @@ import { workoutState, dateNow, timeNow } from "../recoil/atoms";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 
-export default function Workout() {
+export default function Workout(): JSX.Element {
   const date = useRecoilValue(dateNow);
   const time = useRecoilValue(timeNow);
   const [workout, setWorkout] = useRecoilState(workoutState);
 
-  function handleAddBodyPart() {
+  function handleAddBodyPart(): void {
     setWorkout([
       ...workout,
       {
@@ -33,7 +33,7 @@ export default function Workout() {
     ]);
   }
 
-  function handleSave() {
+  function handleSave(): void {
     const saveObject = {
       id: uuidv4(),
       date,
@@ -45,8 +45,6 @@ export default function Workout() {
   }
 
   // TODO:
-  // Remove ticking clock re-rendering everything
-  // - Maybe https://recoiljs.org/docs/api-reference/core/useRecoilCallback/ will help
   // Add TS
   // Add tests
   // Add SAVE functionality

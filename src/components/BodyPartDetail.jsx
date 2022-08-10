@@ -7,7 +7,6 @@ import styles from "../styles/bodypart-detail.module.css";
 import formStyles from "../styles/forms.module.css";
 import { workoutState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
-import { replaceItemAtIndex } from "../lib/replaceItemAtIndex.js";
 export default function BodyPartDetail({ arrIndex, bodyPartDetails, handleAddBodyPart, }) {
     const { exercises } = bodyPartDetails;
     const [workout, setWorkout] = useRecoilState(workoutState);
@@ -33,10 +32,9 @@ export default function BodyPartDetail({ arrIndex, bodyPartDetails, handleAddBod
     async function handleBodyPartChange(event) {
         const part = event.target.value;
         const updatedDetails = { ...bodyPartDetails, bodyPartName: part };
-        const newWorkout = replaceItemAtIndex(workout, arrIndex, updatedDetails);
+        const newWorkout = [...workout.slice(0, arrIndex), updatedDetails, ...workout.slice(arrIndex + 1)];
         setWorkout(newWorkout);
         setSelectedBodyPart(part);
-        // Filter exercises according to body part
         try {
             const sanitizedBodyPart = part.includes(" ")
                 ? part.replace(" ", "%20")
@@ -56,11 +54,9 @@ export default function BodyPartDetail({ arrIndex, bodyPartDetails, handleAddBod
         const exerciseToUpdate = exercises.find((exercise) => exercise.id === id);
         if (exerciseToUpdate) {
             const updatedExercise = { ...exerciseToUpdate, [detail]: value };
-            const newExercises = replaceItemAtIndex(exercises, index, updatedExercise);
-            const newWorkout = replaceItemAtIndex(workout, arrIndex, {
-                ...bodyPartDetails,
-                exercises: newExercises,
-            });
+            const newExercises = [...exercises.slice(0, index), updatedExercise, ...exercises.slice(index + 1)];
+            const updatedDetails = { ...bodyPartDetails, exercises: newExercises };
+            const newWorkout = [...workout.slice(0, arrIndex), updatedDetails, ...workout.slice(arrIndex + 1)];
             setWorkout(newWorkout);
         }
     }
@@ -73,8 +69,8 @@ export default function BodyPartDetail({ arrIndex, bodyPartDetails, handleAddBod
             weight: "",
             note: "",
         };
-        const updatedBodyPartDetails = { ...bodyPartDetails, exercises: [...exercises, newExercise] };
-        const newWorkout = replaceItemAtIndex(workout, arrIndex, updatedBodyPartDetails);
+        const updatedDetails = { ...bodyPartDetails, exercises: [...exercises, newExercise] };
+        const newWorkout = [...workout.slice(0, arrIndex), updatedDetails, ...workout.slice(arrIndex + 1)];
         setWorkout(newWorkout);
     }
     return (<div className={styles.bodyPartContainer}>

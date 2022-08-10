@@ -11,7 +11,6 @@ import styles from "../styles/bodypart-detail.module.css";
 import formStyles from "../styles/forms.module.css";
 import { workoutState } from "../recoil/atoms";
 import { useRecoilState } from "recoil";
-import { replaceItemAtIndex } from "../lib/replaceItemAtIndex.js";
 import { BodyPartExercises, Exercise, LiveExercise } from "../typescript/interfaces.js";
 
 interface BodyPartDetailProps {
@@ -53,11 +52,9 @@ export default function BodyPartDetail({
   async function handleBodyPartChange(event: ChangeEvent<HTMLSelectElement>): Promise<void> {
     const part: string = event.target.value;
     const updatedDetails: BodyPartExercises = { ...bodyPartDetails, bodyPartName: part };
-    // Figure out this return problem
-    const newWorkout = replaceItemAtIndex(workout, arrIndex, updatedDetails);
+    const newWorkout: BodyPartExercises[] = [...workout.slice(0, arrIndex), updatedDetails, ...workout.slice(arrIndex + 1)];
     setWorkout(newWorkout);
     setSelectedBodyPart(part);
-    // Filter exercises according to body part
     try {
       const sanitizedBodyPart: string = part.includes(" ")
         ? part.replace(" ", "%20")
@@ -78,11 +75,9 @@ export default function BodyPartDetail({
     const exerciseToUpdate: LiveExercise | undefined = exercises.find((exercise: LiveExercise) => exercise.id === id);
     if (exerciseToUpdate) {
       const updatedExercise: LiveExercise = {...exerciseToUpdate, [detail]: value };
-      const newExercises = replaceItemAtIndex(exercises, index, updatedExercise);
-      const newWorkout = replaceItemAtIndex(workout, arrIndex, {
-        ...bodyPartDetails,
-        exercises: newExercises,
-      });
+      const newExercises: LiveExercise[] = [...exercises.slice(0, index), updatedExercise, ...exercises.slice(index + 1)];
+      const updatedDetails = {...bodyPartDetails, exercises: newExercises };
+      const newWorkout: BodyPartExercises[] = [...workout.slice(0, arrIndex), updatedDetails, ...workout.slice(arrIndex + 1)];
       setWorkout(newWorkout);
     }
   }
@@ -96,8 +91,8 @@ export default function BodyPartDetail({
       weight: "",
       note: "",
     };
-    const updatedBodyPartDetails: BodyPartExercises = { ...bodyPartDetails, exercises: [...exercises, newExercise] };
-    const newWorkout = replaceItemAtIndex(workout, arrIndex, updatedBodyPartDetails);
+    const updatedDetails: BodyPartExercises = { ...bodyPartDetails, exercises: [...exercises, newExercise] };
+    const newWorkout: BodyPartExercises[] = [...workout.slice(0, arrIndex), updatedDetails, ...workout.slice(arrIndex + 1)];
     setWorkout(newWorkout);
   }
 

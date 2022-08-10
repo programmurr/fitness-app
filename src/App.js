@@ -2,7 +2,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import "./styles/app.css";
 import Workout from "./pages/Workout";
-import NotFound from "./pages/404";
+import NotFound from "./pages/404.jsx";
 import styles from "./styles/home.module.css";
 
 function App() {

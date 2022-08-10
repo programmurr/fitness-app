@@ -21,3 +21,10 @@ export interface BodyPartExercises {
   bodyPartName: string;
   exercises: LiveExercise[];
 }
+
+export interface SaveObject {
+  id: string;
+  date: string;
+  time: string;
+  workout: BodyPartExercises[]
+};

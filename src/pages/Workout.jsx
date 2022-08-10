@@ -5,11 +5,11 @@ import CustomDate from "../components/CustomDate";
 import BodyPartDetail from "../components/BodyPartDetail";
 import { Link } from "react-router-dom";
 import { workoutState, dateNow, timeNow } from "../recoil/atoms";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState, useRecoilCallback } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 export default function Workout() {
-    const date = useRecoilValue(dateNow);
-    const time = useRecoilValue(timeNow);
+    // const date = useRecoilValue(dateNow);
+    // const time = useRecoilValue(timeNow);
     const [workout, setWorkout] = useRecoilState(workoutState);
     function handleAddBodyPart() {
         setWorkout([
@@ -30,7 +30,14 @@ export default function Workout() {
             },
         ]);
     }
-    function handleSave() {
+    async function getDateAndTime(snapshot) {
+        return await Promise.all([
+            snapshot.getPromise(dateNow),
+            snapshot.getPromise(timeNow)
+        ]);
+    }
+    const handleSave = useRecoilCallback(({ snapshot }) => async () => {
+        const [date, time] = await getDateAndTime(snapshot);
         const saveObject = {
             id: uuidv4(),
             date,
@@ -39,9 +46,8 @@ export default function Workout() {
         };
         console.log(saveObject);
         // POST to endpoint
-    }
+    }, []);
     // TODO:
-    // Add TS
     // Add tests
     // Add SAVE functionality
     // Display bodypart as header in container

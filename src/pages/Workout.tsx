@@ -5,12 +5,13 @@ import CustomDate from "../components/CustomDate";
 import BodyPartDetail from "../components/BodyPartDetail";
 import { Link } from "react-router-dom";
 import { workoutState, dateNow, timeNow } from "../recoil/atoms";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState, useRecoilCallback, Snapshot } from "recoil";
 import { v4 as uuidv4 } from "uuid";
+import { SaveObject } from "../typescript/interfaces";
 
 export default function Workout(): JSX.Element {
-  const date = useRecoilValue(dateNow);
-  const time = useRecoilValue(timeNow);
+  // const date = useRecoilValue(dateNow);
+  // const time = useRecoilValue(timeNow);
   const [workout, setWorkout] = useRecoilState(workoutState);
 
   function handleAddBodyPart(): void {
@@ -33,8 +34,11 @@ export default function Workout(): JSX.Element {
     ]);
   }
 
-  function handleSave(): void {
-    const saveObject = {
+  // Used to read date and time state without subscribing component to updates
+  // If used with useRecoilValue, it re-rendered every second because of time
+  const handleSave: () => Promise<void> = useRecoilCallback(({snapshot}) => async () => {
+    const [date, time] = await getDateAndTime(snapshot);
+    const saveObject: SaveObject = {
       id: uuidv4(),
       date,
       time,
@@ -42,15 +46,21 @@ export default function Workout(): JSX.Element {
     };
     console.log(saveObject);
     // POST to endpoint
+  }, []);
+
+  async function getDateAndTime(snapshot: Snapshot): Promise<[string, string]> {
+    return await Promise.all([
+      snapshot.getPromise(dateNow), 
+      snapshot.getPromise(timeNow)
+    ]);
   }
 
   // TODO:
-  // Add TS
   // Add tests
   // Add SAVE functionality
   // Display bodypart as header in container
   // Filter exercises by typing
-
+  
   return (
     <div className={styles.workoutContainer}>
       <CustomDate />

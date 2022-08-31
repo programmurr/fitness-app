@@ -10,8 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 import { SaveObject } from "../typescript/interfaces";
 
 export default function Workout(): JSX.Element {
-  // const date = useRecoilValue(dateNow);
-  // const time = useRecoilValue(timeNow);
   const [workout, setWorkout] = useRecoilState(workoutState);
 
   function handleAddBodyPart(): void {

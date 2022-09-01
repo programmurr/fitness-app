@@ -8,8 +8,6 @@ import { workoutState, dateNow, timeNow } from "../recoil/atoms";
 import { useRecoilState, useRecoilCallback } from "recoil";
 import { v4 as uuidv4 } from "uuid";
 export default function Workout() {
-    // const date = useRecoilValue(dateNow);
-    // const time = useRecoilValue(timeNow);
     const [workout, setWorkout] = useRecoilState(workoutState);
     function handleAddBodyPart() {
         setWorkout([
@@ -30,12 +28,8 @@ export default function Workout() {
             },
         ]);
     }
-    async function getDateAndTime(snapshot) {
-        return await Promise.all([
-            snapshot.getPromise(dateNow),
-            snapshot.getPromise(timeNow)
-        ]);
-    }
+    // Used to read date and time state without subscribing component to updates
+    // If used with useRecoilValue, it re-rendered every second because of time
     const handleSave = useRecoilCallback(({ snapshot }) => async () => {
         const [date, time] = await getDateAndTime(snapshot);
         const saveObject = {
@@ -47,6 +41,12 @@ export default function Workout() {
         console.log(saveObject);
         // POST to endpoint
     }, []);
+    async function getDateAndTime(snapshot) {
+        return await Promise.all([
+            snapshot.getPromise(dateNow),
+            snapshot.getPromise(timeNow)
+        ]);
+    }
     // TODO:
     // Add tests
     // Add SAVE functionality

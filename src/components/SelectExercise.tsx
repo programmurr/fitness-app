@@ -15,13 +15,14 @@ export default function SelectExercise ({
   return (
     <div className="select-exercise-container">
       <div className={formStyles.selectWrapper}>
-        <label className={formStyles.selectLabel}>Select exercise</label>
+        <label className={formStyles.selectLabel} htmlFor="selectExercise">Select exercise</label>
         <select
+          id="selectExercise" 
           className={formStyles.selectInput}
           value={exercise}
           onChange={(e) => handleChange("name", e.target.value)}
         >
-          <option value="select">Select</option>
+          <option value="select" aria-label="default-exercise">Select</option>
           {exercisesByBodyPart.map((exercise, index: number) => (
             <option value={exercise.name} key={`${exercise.name}${index}`}>
               {exercise.name}
